@@ -1,5 +1,6 @@
 package Singleton;
 
+// Early / Early Instance
 public class AircraftEagar {
     // 1. So that instance created at load time
     // 2. private member -> no Outside class can access it to create instance
@@ -13,21 +14,46 @@ public class AircraftEagar {
     }
 
     public void fly(){
-        System.out.printf("Flying some Aircraft");
+        System.out.println("Flying some Aircraft from Early");
     }
 
 }
+
+
+// Lazy Instance
+class AircraftLazy {
+    // 1. So that instance created at load time
+    // 2. private member -> no Outside class can access it to create instance
+    // 3. static -> Inside AircraftEager class you don't want any kind of new instance be loaded
+    private static AircraftLazy instance ;
+
+    private AircraftLazy(){}
+
+    public static AircraftLazy getInstance(){
+        if(instance == null){
+            instance = new AircraftLazy();
+        }
+        return instance;
+    }
+
+    public void fly(){
+        System.out.println("Flying some Aircraft from Lazy");
+    }
+
+}
+
 
 class client{
     public static void main(String[] args) {
         // Now we can't make a object because constructor is private.
 
+        // Early Instance (instance created in compile time)
         AircraftEagar obj1 = AircraftEagar.getInstance();
         obj1.fly();
-        AircraftEagar obj2 = AircraftEagar.getInstance();
+
+        // Lazy Instance (instance created in run time)
+        AircraftLazy obj2 = AircraftLazy.getInstance();
         obj2.fly();
-
-
 
     }
 }
